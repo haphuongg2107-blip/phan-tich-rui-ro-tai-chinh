@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+
+<html lang="vi">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Hệ Thống Phân Tích Rủi Ro
+    </title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <!-- HEADER -->
+
+        <h1>
+            📊 Hệ Thống Phân Tích Rủi Ro Tài Chính
+        </h1>
+
+        <p class="subtitle">
+
+            AI đánh giá độ đáng tin cậy
+            và mức độ rủi ro doanh nghiệp
+
+        </p>
+
+        <!-- FILE UPLOAD -->
+
+        <form method="POST"
+              enctype="multipart/form-data"
+              class="upload-box">
+
+            <h2>
+                📂 Tải File Dataset CSV
+            </h2>
+
+            <input type="file"
+                   name="file"
+                   required>
+
+            <br><br>
+
+            <button type="submit">
+
+                🚀 Phân Tích Ngay
+
+            </button>
+
+        </form>
+
+        <!-- SUMMARY -->
+
+        {% if risk_summary %}
+
+        <div class="cards">
+
+            <div class="card">
+
+                <h2>
+                    {{ risk_summary.rows }}
+                </h2>
+
+                <p>
+                    Tổng Dữ Liệu
+                </p>
+
+            </div>
+
+            <div class="card">
+
+                <h2>
+                    {{ risk_summary.columns }}
+                </h2>
+
+                <p>
+                    Tổng Cột
+                </p>
+
+            </div>
+
+            <div class="card">
+
+                <h2>
+                    {{ risk_summary.high_risk }}
+                </h2>
+
+                <p>
+                    Rủi Ro Cao
+                </p>
+
+            </div>
+
+            <div class="card">
+
+                <h2>
+                    {{ risk_summary.stable }}
+                </h2>
+
+                <p>
+                    Ổn Định
+                </p>
+
+            </div>
+
+        </div>
+
+        {% endif %}
+
+        <!-- TABLE -->
+
+        {% if table_data %}
+
+        <div class="table-container">
+
+            <h2>
+                📈 Kết Quả Phân Tích AI
+            </h2>
+
+            {{ table_data | safe }}
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</body>
+
+</html>
