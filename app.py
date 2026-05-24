@@ -2,11 +2,7 @@
 # IMPORT LIBRARIES
 # =========================================
 
-from flask import (
-    Flask,
-    render_template,
-    request
-)
+from flask import Flask, render_template, request
 
 import pandas as pd
 import numpy as np
@@ -23,13 +19,9 @@ app = Flask(__name__)
 # LOAD AI MODEL
 # =========================================
 
-model = joblib.load(
-    "risk_model.pkl"
-)
+model = joblib.load("risk_model.pkl")
 
-scaler = joblib.load(
-    "scaler.pkl"
-)
+scaler = joblib.load("scaler.pkl")
 
 # =========================================
 # UPLOAD FOLDER
@@ -52,10 +44,6 @@ def home():
     risk_summary = None
 
     if request.method == "POST":
-
-        # ==================================
-        # GET FILE
-        # ==================================
 
         file = request.files["file"]
 
@@ -113,24 +101,17 @@ def home():
             # AI PREDICTION
             # ==================================
 
-            predictions = model.predict(
-                X_scaled
-            )
+            predictions = model.predict(X_scaled)
 
             # ==================================
-            # ADD RESULT COLUMNS
+            # RESULT
             # ==================================
 
             df["Mức_Độ_Rủi_Ro"] = predictions
 
-            # ==================================
-            # TRUST SCORE
-            # ==================================
-
             df["Điểm_Tin_Cậy"] = np.where(
 
-                df["Mức_Độ_Rủi_Ro"]
-                == "Rủi Ro Cao",
+                df["Mức_Độ_Rủi_Ro"] == "Rủi Ro Cao",
 
                 np.random.randint(
                     20,
@@ -144,10 +125,6 @@ def home():
                     len(df)
                 )
             )
-
-            # ==================================
-            # FINANCIAL HEALTH
-            # ==================================
 
             df["Tình_Trạng_Tài_Chính"] = np.where(
 
@@ -180,7 +157,7 @@ def home():
             }
 
             # ==================================
-            # HTML TABLE
+            # TABLE
             # ==================================
 
             table_data = df.head(30).to_html(
@@ -206,3 +183,4 @@ if __name__ == "__main__":
     app.run(
         debug=True
     )
+    
